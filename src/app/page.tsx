@@ -1,7 +1,9 @@
-import Image from 'next/image'
+"use client"
+
+import { Heading } from '@ignite-ui/react'
 
 export default function Home() {
   return (
-    <div>Hello Word</div>
+    <Heading>Hello Word</Heading>
   )
 }
