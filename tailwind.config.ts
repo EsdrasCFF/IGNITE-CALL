@@ -26,6 +26,14 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addComponents }: { addComponents: (components: Record<string, any>) => void }) {
+      addComponents({
+        '.max-width-custom': {
+          maxWidth: 'calc(100vw - (100vw - 1160px) / 2)',
+        },
+      })
+    },
+  ],
 }
 export default config
