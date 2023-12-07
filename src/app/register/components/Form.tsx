@@ -1,11 +1,15 @@
 import { Box } from "@ignite-ui/react";
+import { FormEvent, ReactNode } from "react";
 
-export function Form() {
+interface FormProps {
+  children: ReactNode;
+  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+}
+
+export function Form({children, onSubmit}: FormProps ) {
   return (
-    <Box>
-      <form>
-        
-      </form>
+    <Box as="form" className="mt-6 flex flex-col gap-4" onSubmit={onSubmit} >
+      {children}
     </Box>      
   );
 }
