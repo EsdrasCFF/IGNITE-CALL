@@ -8,6 +8,9 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { FormError } from "./components/FormError";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSearchParams} from "next/navigation";
+import { useEffect } from "react";
+
 
 const registerFormSchema = z.object({
   username: z.string()
@@ -24,13 +27,24 @@ type RegisterFormData = z.infer<typeof registerFormSchema>
 
 export default function RegisterPage() {
 
-  const {register, handleSubmit, formState: {errors, isSubmitting}} = useForm<RegisterFormData>({
+  const {register, handleSubmit, setValue, formState: {errors, isSubmitting}} = useForm<RegisterFormData>({
     resolver: zodResolver(registerFormSchema)
   })
+
+  const query = useSearchParams();
 
   async function handleRegister(data: RegisterFormData) {
     console.log(data)
   }
+
+  useEffect(() => {
+    const username = query.get('username')
+    
+    if(username) {
+      setValue('username', username)
+    }
+    
+  }, [query, setValue])
 
   return (
     <main className="max-w-[572px] mt-20 mb-4 mx-auto py-0 px-4" >

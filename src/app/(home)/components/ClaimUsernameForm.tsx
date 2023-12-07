@@ -1,7 +1,8 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, TextInput, Text } from "@ignite-ui/react";
+import { Button, TextInput} from "@ignite-ui/react";
+import { useRouter } from "next/navigation";
 import { ArrowRight } from "phosphor-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -16,12 +17,16 @@ const claimUsernameFormSchema = z.object({
 type ClaimUsernameFormData = z.infer<typeof claimUsernameFormSchema>
 
 export function ClaimUsernameForm () {
-  const { register, handleSubmit, formState: {errors} } = useForm<ClaimUsernameFormData>({
+  const { register, handleSubmit, formState: {errors, isSubmitting} } = useForm<ClaimUsernameFormData>({
     resolver: zodResolver(claimUsernameFormSchema)
   })
 
+  const router = useRouter();
+
   async function handlePreRegister(data: ClaimUsernameFormData) {
-    console.log(data)
+    const {username} = data;
+  
+    await router.push(`register?username=${username}`)
   }
 
   return (
@@ -34,7 +39,7 @@ export function ClaimUsernameForm () {
           {...register('username')}
         />
 
-        <Button size='sm' type='submit'>
+        <Button size='sm' type='submit' disabled={isSubmitting} >
           Reservar 
           <ArrowRight/>
         </Button>
@@ -42,9 +47,9 @@ export function ClaimUsernameForm () {
       </form>
       
       <div className="mt-2">
-        <Text size="sm" >
+        <p className="text-xs" >
           {errors.username ? errors.username.message : 'Digite o nome de usuário desejado'}
-        </Text>
+        </p>
       </div>
     </>
   );
