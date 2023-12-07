@@ -20,11 +20,11 @@ export default function Home() {
           agendamentos no seu tempo livre.
         </p>
         
-        <div className='mt-4'>
-          <Box>
-            <ClaimUsernameForm/>
-          </Box>  
-        </div>
+        
+        <Box className="mt-4" >
+          <ClaimUsernameForm/>
+        </Box>  
+        
 
       </Hero>
 
