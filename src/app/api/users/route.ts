@@ -4,7 +4,6 @@ import { cookies } from 'next/headers'
 
 export async function POST(request: NextRequest) {
   const body = await request.json()
-  const response = NextResponse.next()
   
   const userExists = await prisma.user.findUnique({
     where: {
