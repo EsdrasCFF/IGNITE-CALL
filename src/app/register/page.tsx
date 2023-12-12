@@ -10,6 +10,8 @@ import { FormError } from "./components/FormError";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams} from "next/navigation";
 import { useEffect } from "react";
+import { api } from "@/lib/axios";
+import { AxiosError } from "axios";
 
 
 const registerFormSchema = z.object({
@@ -34,7 +36,16 @@ export default function RegisterPage() {
   const query = useSearchParams();
 
   async function handleRegister(data: RegisterFormData) {
-    console.log(data)
+    try{
+      await api.post('/users', {
+        name: data.name,
+        username: data.username,
+      })
+    } catch (error) {
+      if(error instanceof AxiosError && error.response?.data.message) {
+        alert(error.response.data.message)
+      }
+    }
   }
 
   useEffect(() => {
