@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.1.0",
+    "@types/cookies": "^0.7.10",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

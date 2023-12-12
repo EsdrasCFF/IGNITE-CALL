@@ -1,9 +1,10 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
+import { cookies } from 'next/headers'
 
 export async function POST(request: NextRequest) {
   const body = await request.json()
-
+  const response = NextResponse.next()
   
   const userExists = await prisma.user.findUnique({
     where: {
@@ -12,12 +13,12 @@ export async function POST(request: NextRequest) {
   })
   
   if(userExists) {
-    let response = {
+    let message = {
       status: 'fail',
       message: 'O username já está em uso!'
     }
     
-    return new NextResponse(JSON.stringify(response), {
+    return new NextResponse(JSON.stringify(message), {
       status: 400,
       headers: {
         "Content-Type": "application/json",
@@ -31,7 +32,12 @@ export async function POST(request: NextRequest) {
       username: body.username
     }
   })
-  
+
+  cookies().set('@ignitecall:userId', user.id, {
+    maxAge: 60 * 60 * 24 * 7, //7 days
+    path: '/'
+  })
+
   return new NextResponse(JSON.stringify(user), {
     status: 201,
     headers: {
