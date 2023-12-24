@@ -5,6 +5,7 @@ import { Header } from "../components/Header";
 import { ArrowRight } from "phosphor-react";
 import { ConnectBox } from "./components/ConnectBox";
 import { ConnectItem } from "./components/ConnectItem";
+import { signIn, useSession } from 'next-auth/react'
 
 
 
@@ -13,6 +14,8 @@ export default function RegisterPage() {
   
   // }
 
+  const { status } = useSession()
+  console.log('stauts:' + status)
 
   return (
     <main className="max-w-[572px] mt-20 mb-4 mx-auto py-0 px-4" >
@@ -30,7 +33,7 @@ export default function RegisterPage() {
         <ConnectItem>
           <Text> Google Calendar</Text>
 
-          <Button variant="secondary" size="sm">
+          <Button variant="secondary" size="sm" onClick={() => signIn('google') } >
             Conectar 
             <ArrowRight/>  
           </Button>
