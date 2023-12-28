@@ -10,7 +10,7 @@ import { useRouter, useSearchParams} from "next/navigation"
 import { AuthErrorText } from "./components/AuthErrorText";
 
 
-export default function RegisterPage() {
+export default function ConnectCalendarPage() {
   // async function handleRegister(data: RegisterFormData) {
   
   // }
