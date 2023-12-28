@@ -34,7 +34,7 @@ const config: Config = {
           maxWidth: 'calc(100vw - (100vw - 1160px) / 2)',
         },
       })
-    },
+    }
   ],
 }
 export default config
