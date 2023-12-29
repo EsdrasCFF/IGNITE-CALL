@@ -12,6 +12,7 @@ import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { getWeekDays } from "@/utils/get-week-days";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormError } from "../components/FormError";
+import { convertTimeStringToMinutes } from "@/utils/convert-time-string-to-minutes";
 
 const tiemIntervalsFormSchema = z.object({
   intervals: z.array(
@@ -25,14 +26,29 @@ const tiemIntervalsFormSchema = z.object({
   .length(7)
   .transform( intervals => intervals.filter(interval => interval.enabled))
   .refine(intervals => intervals.length > 0, {message: 'Você precisa selecionar pelo menos 1 dia da semana!'})
+  .transform((intervals) => {
+    return intervals.map((interval) => {
+      return {
+        weekDay: interval.weekDay,
+        startTimeInMinutes: convertTimeStringToMinutes(interval.startTime),
+        endTimeInMinutes: convertTimeStringToMinutes(interval.endTime),
+      }
+    })
+  })
+  .refine((intervals) => {
+    return intervals.every((interval) => 
+      interval.endTimeInMinutes - 60 >= interval.startTimeInMinutes
+    )
+  }, {message: 'O horário de término deve ser pelos 1h distante do horário de início!'})
   ,
 })
 
-type TimeIntervalsFormData = z.infer<typeof tiemIntervalsFormSchema>
+type TimeIntervalsFormDataInput = z.input<typeof tiemIntervalsFormSchema>
+type TimeIntervalsFormDataOutput = z.output<typeof tiemIntervalsFormSchema>
 
 export default function TimeIntervalsPage() {
  
-  const { register, handleSubmit, control, watch, formState: {isSubmitting, errors} } = useForm({
+  const { register, handleSubmit, control, watch, formState: {isSubmitting, errors} } = useForm<TimeIntervalsFormDataInput>({
     resolver: zodResolver(tiemIntervalsFormSchema),
     defaultValues: {
       intervals: [
@@ -56,12 +72,9 @@ export default function TimeIntervalsPage() {
 
   const intervals = watch('intervals')
 
-  function handleSetTimeIntervals(data: TimeIntervalsFormData) {
+  function handleSetTimeIntervals(data: TimeIntervalsFormDataOutput) {
     console.log(data)
   }
-
-  const error = errors
-  console.log(error)
 
   return (
     <main className="max-w-[572px] mt-20 mb-4 mx-auto py-0 px-4" >
@@ -75,7 +88,7 @@ export default function TimeIntervalsPage() {
         <MultiStep size={4} currentStep={3}/>
       </Header>
 
-      <IntervalBox onSubmit={handleSubmit(handleSetTimeIntervals)}>
+      <IntervalBox onSubmit={handleSubmit(handleSetTimeIntervals as any)}>
         <div className="border border-solid border-gray600 rounded-md" >
           {fields.map((field, index) => {
             return (
