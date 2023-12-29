@@ -9,7 +9,7 @@ interface IntervalBoxProps {
 export function IntervalBox({children, onSubmit}: IntervalBoxProps) {
   return (
     <form className="mt-6" onSubmit={onSubmit}>
-      <Box className="flex flex-col" >
+      <Box className="flex flex-col gap-3" >
         {children}
       </Box>
     </form>
