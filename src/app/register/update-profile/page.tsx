@@ -9,6 +9,7 @@ import { Header } from "../components/Header";
 import { ProfileBox } from "./components/ProfileBox";
 import { Label } from "./components/Label";
 import { useSession } from "next-auth/react";
+import { api } from "@/lib/axios";
 
 
 const updateProfileSchema = z.object({
@@ -28,7 +29,7 @@ export default function RegisterPage() {
   console.log(session)
 
   async function handleUpdateProfile(data: UpdateProfileData) {
-  
+    await api.put("users/update-profile", {bio: data.bio})
   }
 
 
@@ -61,7 +62,7 @@ export default function RegisterPage() {
           <p className="text-gray400 text-sm">Fale um pouco sobre você. Isto será exibido em sua página pessoal.</p>
         </Label>
 
-        <Button type="submit" >
+        <Button type="submit" disabled={isSubmitting} >
           Finalizar
           <ArrowRight/>
         </Button>
