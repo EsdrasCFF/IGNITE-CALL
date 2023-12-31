@@ -1,6 +1,6 @@
 "use client"
 
-import { Button, MultiStep, TextArea, TextInput } from "@ignite-ui/react";
+import { Avatar, Button, MultiStep, TextArea, TextInput } from "@ignite-ui/react";
 import { ArrowRight } from "phosphor-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -49,6 +49,8 @@ export default function RegisterPage() {
       <ProfileBox onSubmit={handleSubmit(handleUpdateProfile)} >
         <Label>
           <p className="text-sm" >Foto de perfil</p>
+          {/* @ts-ignore */}
+          <Avatar src={session.data?.user?.avatar_url} alt={session.data?.user?.name} />
         </Label>
         
         <Label>
