@@ -80,7 +80,7 @@ export default function TimeIntervalsPage() {
     
     await api.post('/users/time-intervals', data)
 
-    router.push('register/update-profile')
+    router.push('/register/update-profile')
   }
 
   return (

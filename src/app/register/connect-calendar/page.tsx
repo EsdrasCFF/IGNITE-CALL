@@ -22,10 +22,12 @@ export default function ConnectCalendarPage() {
   const hasAuthError = query.get('error')
   const isSignedIn = session.status == 'authenticated'
 
-  console.log(session)
-
   async function handleConnectCalendarClick() {
     await signIn('google')
+  }
+
+  function handleNavigateToNextStep() {
+    router.push('/register/time-intervals')
   }
 
   return (
@@ -64,7 +66,7 @@ export default function ConnectCalendarPage() {
           </AuthErrorText>
         )}
 
-        <Button type="submit" disabled={!isSignedIn}>
+        <Button type="submit" disabled={!isSignedIn} onClick={handleNavigateToNextStep} >
             Próximo Passo
             <ArrowRight/>
         </Button>
