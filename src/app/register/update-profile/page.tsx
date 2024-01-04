@@ -10,6 +10,8 @@ import { ProfileBox } from "./components/ProfileBox";
 import { Label } from "./components/Label";
 import { useSession } from "next-auth/react";
 import { api } from "@/lib/axios";
+import { useRouter } from "next/navigation";
+
 
 
 const updateProfileSchema = z.object({
@@ -26,10 +28,13 @@ export default function RegisterPage() {
   })
 
   const session = useSession()
-  console.log(session)
+  const router = useRouter()
 
   async function handleUpdateProfile(data: UpdateProfileData) {
     await api.put("users/update-profile", {bio: data.bio})
+
+   
+    router.push(`/schedule/${session.data?.user.username}`)
   }
 
 
@@ -43,14 +48,14 @@ export default function RegisterPage() {
           Ah, você pode editar essas informações depois.
         </p>
 
-        <MultiStep size={4} currentStep={1}/>
+        <MultiStep size={4} currentStep={4}/>
 
       </Header>
 
       <ProfileBox onSubmit={handleSubmit(handleUpdateProfile)} >
         <Label>
           <p className="text-sm" >Foto de perfil</p>
-          {/* @ts-ignore */}
+         
           <Avatar src={session.data?.user?.avatar_url} alt={session.data?.user?.name} />
         </Label>
         
