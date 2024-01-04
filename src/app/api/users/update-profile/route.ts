@@ -12,13 +12,12 @@ export async function PUT(request: NextRequest) {
   const session = await getServerSession(authOptions)
   const bio = await request.json() as ProfileDataRequestBody
 
-  await prisma.user.update({
+ await prisma.user.update({
     where: {
       id: session?.user.id,
     },
     data: bio
   }) 
 
-
-  return NextResponse.json({}, {status: 204})
+  return new NextResponse(null, {status: 204})
 }
