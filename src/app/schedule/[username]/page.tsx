@@ -2,9 +2,10 @@ import { Container } from "./components/Container";
 import { UserHeader } from "./components/UserHeader";
 import { dataUser } from "@/actions/schedule-page/user";
 import { UserAvatar } from "./components/UserAvatar";
+import { ScheduleForm } from "./components/ScheduleForm";
 
 interface ScheduleProps {
-  params: {'username': string}
+  params: {username: string}
 }
 
 export default async function SchedulePage({params}: ScheduleProps) {
@@ -20,6 +21,8 @@ export default async function SchedulePage({params}: ScheduleProps) {
         <h1 className="text-2xl leading-normal mt-2" >{user?.name}</h1>
         <p className="text-gray200" >{user?.bio}</p>
       </UserHeader>
+
+      <ScheduleForm/>
     </Container>
   )
 }
