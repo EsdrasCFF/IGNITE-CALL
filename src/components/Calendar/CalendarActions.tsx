@@ -6,7 +6,7 @@ interface CalendarActionProps {
 
 export function CalendarAction({children}: CalendarActionProps) {
   return (
-    <div>
+    <div className="flex gap-2 text-gray200" >
       {children}
     </div>
   )

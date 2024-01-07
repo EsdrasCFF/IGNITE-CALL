@@ -8,7 +8,7 @@ interface ContainerProps {
 
 export function Container({children}: ContainerProps) {
   return (
-    <div className="max-w-3xl px-4 mt-20 mb-4 mx-auto" >
+    <div className=" flex flex-col items-center justify-center max-w-3xl px-4 mt-20 mb-4 mx-auto" >
       {children}
     </div>
   )

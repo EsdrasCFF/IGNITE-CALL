@@ -6,7 +6,7 @@ interface CalendarHeaderProps {
 
 export function CalendarHeader({children}: CalendarHeaderProps) {
   return (
-    <div>
+    <div className="flex items-center justify-between" >
       {children}
     </div>
   )

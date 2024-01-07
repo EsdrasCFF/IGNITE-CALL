@@ -8,7 +8,7 @@ interface CalendarStepProps {
 
 export function CalendarStep() {
   return(
-    <Box className="grid my-auto mt-6 p-0 relative max-w-full" >
+    <Box className="grid grid-cols-[1fr] mx-0 mt-6 mb-0 p-0 relative max-w-full w-[540px]" >
       <Calendar/>
     </Box>
   )
