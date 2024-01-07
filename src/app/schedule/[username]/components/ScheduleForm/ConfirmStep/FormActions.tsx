@@ -6,7 +6,7 @@ interface FormActionsProps {
 
 export function FormActions({children}: FormActionsProps) {
   return (
-    <div>
+    <div className="flex justify-end gap-2 mt-2" >
       {children}
     </div>
   )

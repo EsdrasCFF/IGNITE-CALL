@@ -8,7 +8,7 @@ interface ConfirmFormProps {
 
 export function ConfirmForm({children, onSubmit}: ConfirmFormProps) {
   return (
-    <Box as="form" onSubmit={onSubmit}>
+    <Box as="form" onSubmit={onSubmit} className="w-[540px] mx-auto mt-6 mb-0 flex flex-col gap-4" >
       {children}
     </Box>
   )

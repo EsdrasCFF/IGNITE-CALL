@@ -6,7 +6,7 @@ interface FormErrorProps {
 
 export function FormError({children}: FormErrorProps) {
   return (
-    <p>
+    <p className="text-red text-xs" >
       {children}
     </p>
   )
