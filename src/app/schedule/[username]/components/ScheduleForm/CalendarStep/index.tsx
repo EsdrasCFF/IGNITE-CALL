@@ -1,6 +1,6 @@
 import { Calendar } from "@/components/Calendar";
 import { Box } from "@ignite-ui/react";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { TimePicker } from "@/components/TimePicker";
 import { TimePickerHeader } from "@/components/TimePicker/TimePickerHeader";
 import { TimePickerList } from "@/components/TimePicker/TimePickerList";
@@ -11,7 +11,7 @@ interface CalendarStepProps {
 }
 
 export function CalendarStep() {
-  const isDateSelected = true
+  const isDateSelected = false
   const isTimePickerOpen = isDateSelected
 
   return(
