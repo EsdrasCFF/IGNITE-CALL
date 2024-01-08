@@ -5,22 +5,41 @@ import { CalendarTitle } from "./CalendarTitle";
 import { CalendarBody } from "./CalendarBody";
 import { getWeekDays } from "@/utils/get-week-days";
 import { CalendarDay } from "./CalendarDay";
+import { useState } from "react";
+import dayjs from "dayjs";
 
 export function Calendar() {
 
+  const [currentDate, setCurrentDate] = useState(() => {return dayjs().set('date', 1)})
+
   const shortWeekDays = getWeekDays({short: true})
+
+  const currentMonth = currentDate.format('MMMM')
+  const currentYear = currentDate.format('YYYY')
+
+  function handlePreviousMonth() {
+    const previousMonthDate = currentDate.subtract(1, 'month')
+
+    setCurrentDate(previousMonthDate)
+  }
+
+  function handleNextMonth() {
+    const previousMonthDate = currentDate.add(1, 'month')
+
+    setCurrentDate(previousMonthDate)
+  }
 
   return (
     <div className="flex flex-col gap-6 p-6" >
       <CalendarHeader>
-        <CalendarTitle> Janeiro <span className="text-gray200" >2024</span> </CalendarTitle>
+        <CalendarTitle> {currentMonth} <span className="text-gray200" >{currentYear}</span> </CalendarTitle>
 
         <CalendarAction>
-          <button className=" hover:text-gray100 focus:outline focus:text-gray100 rounded" >
+          <button className=" hover:text-gray100 focus:outline focus:text-gray100 rounded" onClick={handlePreviousMonth} title="previous month">
             <CaretLeft width={18} height={18}/>
           </button>
           
-          <button className=" hover:text-gray100 focus:outline focus:text-gray100 rounded">
+          <button className=" hover:text-gray100 focus:outline focus:text-gray100 rounded" onClick={handleNextMonth} title="next month">
             <CaretRight width={18} height={18} />
           </button>
         </CalendarAction>
