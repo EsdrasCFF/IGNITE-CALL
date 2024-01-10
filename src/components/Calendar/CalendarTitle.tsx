@@ -6,7 +6,7 @@
 
   export function CalendarTitle({children}: CalendarTitleProps) {
     return (
-      <p className="font-medium" >
+      <p className="font-medium capitalize" >
         {children}
       </p>
     )
