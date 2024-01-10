@@ -7,6 +7,7 @@ import { getWeekDays } from "@/utils/get-week-days";
 import { CalendarDay } from "./CalendarDay";
 import { useMemo, useState } from "react";
 import dayjs from "dayjs";
+import '@/lib/dayjs'
 
 interface CalendarWeek {
   week: number;
