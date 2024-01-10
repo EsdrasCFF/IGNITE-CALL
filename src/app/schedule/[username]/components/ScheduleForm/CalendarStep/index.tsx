@@ -11,7 +11,10 @@ interface CalendarStepProps {
 }
 
 export function CalendarStep() {
-  const isDateSelected = false
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+
+  const isDateSelected = !!selectedDate
+  console.log(isDateSelected)
   const isTimePickerOpen = isDateSelected
 
   return(
@@ -19,7 +22,7 @@ export function CalendarStep() {
       grid grid-cols-[1fr] mx-0 mt-6 mb-0 p-0 relative max-w-full 
       ${isTimePickerOpen ? 'time-picker-open' : 'w-[540px]'}
       `}>
-      <Calendar/>
+      <Calendar selectedDate={selectedDate} onDateSelected={setSelectedDate} />
 
       {isDateSelected && (
         <TimePicker>
