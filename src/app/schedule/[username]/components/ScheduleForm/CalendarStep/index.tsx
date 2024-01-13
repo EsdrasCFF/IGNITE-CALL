@@ -1,24 +1,40 @@
 import { Calendar } from "@/components/Calendar";
 import { Box } from "@ignite-ui/react";
-import { ReactNode, useState } from "react";
+import { useEffect, useState } from "react";
 import { TimePicker } from "@/components/TimePicker";
 import { TimePickerHeader } from "@/components/TimePicker/TimePickerHeader";
 import { TimePickerList } from "@/components/TimePicker/TimePickerList";
 import { TimePickerItem } from "@/components/TimePicker/TimePickerItem";
 import dayjs from "dayjs";
 import '@/lib/dayjs'
-
-interface CalendarStepProps {
-  children: ReactNode;
-}
+import { useParams} from "next/navigation";
+import { api } from "@/lib/axios";
 
 export function CalendarStep() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
-
   const isDateSelected = !!selectedDate
 
   const weekDay = selectedDate ? dayjs(selectedDate).format('dddd') : null
   const describedDate = selectedDate ? dayjs(selectedDate).format('DD[ de ]MMMM') : null
+
+  const params: {username: string} = useParams()
+  const username = params.username;
+
+  useEffect(() => {
+    if(!selectedDate) {
+      return;
+    }
+
+    api.get(`users/${username}/availability`, {
+      params: {
+        date: dayjs(selectedDate).format('YYYY-MM-DD')
+      }
+    }).then((response) => {
+      console.log(response.data)
+    })
+
+
+  }, [selectedDate, username])
 
   return(
     <Box className={`
