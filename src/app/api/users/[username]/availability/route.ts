@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import dayjs from "dayjs";
 import { NextRequest, NextResponse } from "next/server";
+import '@/lib/dayjs'
 
 interface MethodProps {
   params: {username: string};
@@ -59,10 +60,24 @@ export async function GET(request: NextRequest, {params}: MethodProps) {
     return startHour + i
   })
 
-  console.log(possibleTimes)
+  const blockedTimes = await prisma.scheduling.findMany({
+    select: {
+      date: true
+    },
+    where: {
+      user_id: user.id,
+      date: {
+        gte: referenceDate.set('hour', startHour).toDate(),
+        lte: referenceDate.set('hour', endHour).toDate(),
+      }
+    }
+  })
+
+  const availableTimes = possibleTimes.filter((time) => {
+    return !blockedTimes.some((blockedTime) => blockedTime.date.getHours() === time)
+  })
 
   return NextResponse.json({
-    username,
-    date
+    possibleTimes, availableTimes
   })
 }
