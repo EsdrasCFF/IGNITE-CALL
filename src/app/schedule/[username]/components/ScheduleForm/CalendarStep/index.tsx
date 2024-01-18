@@ -10,8 +10,16 @@ import '@/lib/dayjs'
 import { useParams} from "next/navigation";
 import { api } from "@/lib/axios";
 
+
+interface Availability {
+  availableTimes: number[];
+  possibleTimes: number[]
+}
+
 export function CalendarStep() {
+  const [availability, setAvailability] = useState<Availability | null>(null)
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+  
   const isDateSelected = !!selectedDate
 
   const weekDay = selectedDate ? dayjs(selectedDate).format('dddd') : null
@@ -19,6 +27,7 @@ export function CalendarStep() {
 
   const params: {username: string} = useParams()
   const username = params.username;
+
 
   useEffect(() => {
     if(!selectedDate) {
@@ -30,7 +39,7 @@ export function CalendarStep() {
         date: dayjs(selectedDate).format('YYYY-MM-DD')
       }
     }).then((response) => {
-      console.log(response.data)
+      setAvailability(response.data)
     })
 
 
@@ -50,19 +59,14 @@ export function CalendarStep() {
           </TimePickerHeader>
 
           <TimePickerList>
-            <TimePickerItem>08:00</TimePickerItem>
-            <TimePickerItem>09:00</TimePickerItem>
-            <TimePickerItem>10:00</TimePickerItem>
-            <TimePickerItem>11:00</TimePickerItem>
-            <TimePickerItem>12:00</TimePickerItem>
-            <TimePickerItem>13:00</TimePickerItem>
-            <TimePickerItem>14:00</TimePickerItem>
-            <TimePickerItem>15:00</TimePickerItem>
-            <TimePickerItem>16:00</TimePickerItem>
-            <TimePickerItem>17:00</TimePickerItem>
-            <TimePickerItem>18:00</TimePickerItem>
-            <TimePickerItem>19:00</TimePickerItem>
-            <TimePickerItem>20:00</TimePickerItem>
+            {
+              availability?.possibleTimes.map((hour) => (
+                <TimePickerItem key={hour} disabled={!availability.availableTimes.includes(hour)}>
+                  {String(hour).padStart(2,'0') }:00h
+                </TimePickerItem>
+              ))
+            }
+
           </TimePickerList>
         </TimePicker>
       )}
