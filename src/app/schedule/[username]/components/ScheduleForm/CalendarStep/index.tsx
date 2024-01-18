@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import '@/lib/dayjs'
 import { useParams} from "next/navigation";
 import { api } from "@/lib/axios";
+import { useQuery } from "@tanstack/react-query";
 
 
 interface Availability {
@@ -17,7 +18,6 @@ interface Availability {
 }
 
 export function CalendarStep() {
-  const [availability, setAvailability] = useState<Availability | null>(null)
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   
   const isDateSelected = !!selectedDate
@@ -28,22 +28,22 @@ export function CalendarStep() {
   const params: {username: string} = useParams()
   const username = params.username;
 
+  const selectedDateWithoutTime = selectedDate ? dayjs(selectedDate).format('YYYY-MM-DD') : null
 
-  useEffect(() => {
-    if(!selectedDate) {
-      return;
-    }
+  const {data: availability} = useQuery<Availability>({
+    queryKey: ['availability', selectedDateWithoutTime], 
+    queryFn: async () => {
+      const response = await api.get(`users/${username}/availability`, {
+        params: {
+          date: dayjs(selectedDate).format('YYYY-MM-DD')
+        },
+      })
 
-    api.get(`users/${username}/availability`, {
-      params: {
-        date: dayjs(selectedDate).format('YYYY-MM-DD')
-      }
-    }).then((response) => {
-      setAvailability(response.data)
-    })
+      return response.data
+    },
+    enabled: !!selectedDate
+  })
 
-
-  }, [selectedDate, username])
 
   return(
     <Box className={`
