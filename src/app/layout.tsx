@@ -4,6 +4,7 @@ import './globals.css'
 import { AuthProvider } from '@/providers/auth'
 import dayjs from "dayjs";
 import 'dayjs/locale/pt-br';
+import { ReactQueryProvider } from '@/providers/react-query';
 dayjs.locale('pt-br');
 
 
@@ -25,11 +26,13 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={roboto.className}>
-        <AuthProvider>
-          {children}
-        </AuthProvider>
-      </body>
+      <ReactQueryProvider>
+        <body className={roboto.className}>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+        </body>
+      </ReactQueryProvider>
     </html>
   )
 }
