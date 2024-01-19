@@ -6,7 +6,7 @@ import { CalendarBody } from "./CalendarBody";
 import { getWeekDays } from "@/utils/get-week-days";
 import { CalendarDay } from "./CalendarDay";
 import { useMemo, useState } from "react";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import '@/lib/dayjs'
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/axios";
@@ -60,6 +60,10 @@ export function Calendar({selectedDate, onDateSelected}: CalendarProps) {
 
   const calendarWeeks = useMemo(() => {
 
+    if(!blockedDates) {
+      return []
+    }
+
     const daysInMonthArray = Array.from({
       length: currentDate.daysInMonth(),
     }).map((_, i) => {
@@ -89,7 +93,7 @@ export function Calendar({selectedDate, onDateSelected}: CalendarProps) {
       }),
       ...daysInMonthArray.map((date) => {
 
-        return {date, disabled: date.endOf('day').isBefore(new Date()) || (blockedDates?.blockedWeekDays).includes(date.get('day')) }
+        return {date, disabled: date.endOf('day').isBefore(new Date()) || blockedDates.blockedWeekDays.includes(date.get('day')) }
       }),
       ...nextMonthFillArray.map((date) => {
         return {date, disabled: true}
