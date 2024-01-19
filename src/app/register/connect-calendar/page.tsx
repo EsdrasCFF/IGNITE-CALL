@@ -11,9 +11,7 @@ import { AuthErrorText } from "./components/AuthErrorText";
 
 
 export default function ConnectCalendarPage() {
-  // async function handleRegister(data: RegisterFormData) {
-  
-  // }
+
 
   const session = useSession()
   const router = useRouter();
