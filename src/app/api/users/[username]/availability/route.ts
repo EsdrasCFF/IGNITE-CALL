@@ -74,7 +74,13 @@ export async function GET(request: NextRequest, {params}: MethodProps) {
   })
 
   const availableTimes = possibleTimes.filter((time) => {
-    return !blockedTimes.some((blockedTime) => blockedTime.date.getHours() === time)
+    const isTimeBlcoked = blockedTimes.some(
+      (blockedTime) => blockedTime.date.getHours() === time,
+    )
+
+    const isTimePast = referenceDate.set('hour', time).isBefore(new Date())
+
+    return !isTimeBlcoked && !isTimePast
   })
 
   return NextResponse.json({
