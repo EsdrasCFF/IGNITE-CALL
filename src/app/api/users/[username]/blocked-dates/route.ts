@@ -49,17 +49,31 @@ export async function GET(request: NextRequest, {params}: MethodProps) {
     return !availableWeekDays.some(availableDay => availableDay.week_day === day)
   })
   
-  const blockedDatesRaw = await prisma.$queryRaw`
-    SELECT * 
+  const blockedDatesRaw: Array<{ date: number}> = await prisma.$queryRaw`
+    SELECT
+      EXTRACT(DAY FROM S.date) AS date,
+      COUNT(S.date) AS amount,
+      ((UTI.end_time_in_minutes - UTI.start_time_in_minutes) / 60) AS size
+
     FROM
       schedulings S
     
+    LEFT JOIN user_time_intervals UTI
+      ON UTI.week_day = WEEKDAY(DATE_ADD(S.date, INTERVAL 1 DAY))
+
     WHERE 
       S.user_id = ${user.id}
       AND DATE_FORMAT(S.date, "%Y-%m") = ${`${year}-${month}`}
+
+    GROUP BY EXTRACT(DAY FROM S.date),
+      ((UTI.end_time_in_minutes - UTI.start_time_in_minutes) / 60)
+  
+    HAVING amount >= size
   `
 
+  const blockedDate = blockedDatesRaw.map((item) => item.date)
+
   return NextResponse.json({
-    blockedWeekDays, blockedDatesRaw
+    blockedWeekDays, blockedDate
   })
 }
