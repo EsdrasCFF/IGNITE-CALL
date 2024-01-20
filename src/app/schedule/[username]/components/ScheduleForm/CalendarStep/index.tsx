@@ -1,6 +1,6 @@
 import { Calendar } from "@/components/Calendar";
 import { Box } from "@ignite-ui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { TimePicker } from "@/components/TimePicker";
 import { TimePickerHeader } from "@/components/TimePicker/TimePickerHeader";
 import { TimePickerList } from "@/components/TimePicker/TimePickerList";
@@ -17,7 +17,11 @@ interface Availability {
   possibleTimes: number[]
 }
 
-export function CalendarStep() {
+interface CalendarStepProps {
+  onSelectedDateTime: (date: Date) => void;
+}
+
+export function CalendarStep({onSelectedDateTime}: CalendarStepProps) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   
   const isDateSelected = !!selectedDate
@@ -44,6 +48,17 @@ export function CalendarStep() {
     enabled: !!selectedDate
   })
 
+  function handleSelectTime(hour: number) {
+
+    const dateWithTime = dayjs(selectedDate)
+      .set('hour', hour)
+      .startOf('hour')
+      .toDate()
+
+
+
+    onSelectedDateTime(dateWithTime)
+  }
 
   return(
     <Box className={`
@@ -61,7 +76,11 @@ export function CalendarStep() {
           <TimePickerList>
             {
               availability?.possibleTimes.map((hour) => (
-                <TimePickerItem key={hour} disabled={!availability.availableTimes.includes(hour)}>
+                <TimePickerItem 
+                  key={hour} 
+                  disabled={!availability.availableTimes.includes(hour)}
+                  onClick={() => handleSelectTime(hour)}
+                >
                   {String(hour).padStart(2,'0') }:00h
                 </TimePickerItem>
               ))
