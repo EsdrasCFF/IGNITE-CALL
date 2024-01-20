@@ -29,6 +29,7 @@ interface CalendarProps {
 
 interface BlockedDates {
   blockedWeekDays: number[];
+  blockedDate: number[];
 }
 
 export function Calendar({selectedDate, onDateSelected}: CalendarProps) {
@@ -44,12 +45,12 @@ export function Calendar({selectedDate, onDateSelected}: CalendarProps) {
   const username = params.username;
 
   const {data: blockedDates} = useQuery<BlockedDates>({
-    queryKey: ['blocked-dates', currentDate.get('year'), currentDate.get('month') ], 
+    queryKey: ['blocked-dates', currentDate.get('year'), currentDate.get('month') + 1 ], 
     queryFn: async () => {
       const response = await api.get(`users/${username}/blocked-dates`, {
         params: {
           year: currentDate.get('year'),
-          month: currentDate.get('month')
+          month: String(currentDate.get('month') + 1).padStart(2,'0')
         },
       })
 
@@ -93,7 +94,13 @@ export function Calendar({selectedDate, onDateSelected}: CalendarProps) {
       }),
       ...daysInMonthArray.map((date) => {
 
-        return {date, disabled: date.endOf('day').isBefore(new Date()) || blockedDates.blockedWeekDays.includes(date.get('day')) }
+        return {
+          date, 
+          disabled: 
+            date.endOf('day').isBefore(new Date()) || 
+            blockedDates.blockedWeekDays.includes(date.get('day')) ||
+            blockedDates.blockedDate.includes(date.get('date'))
+        }
       }),
       ...nextMonthFillArray.map((date) => {
         return {date, disabled: true}
