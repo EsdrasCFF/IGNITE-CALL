@@ -8,6 +8,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormError } from "./FormError";
 import dayjs from "dayjs";
+import { useParams} from "next/navigation";
+import { api } from "@/lib/axios";
 
 const ConfirmFormSchema = z.object({
   name: z.string().min(3,{message: 'O nome precisa de pelo menos 3 caracteres!'}),
@@ -26,13 +28,26 @@ export function ConfirmStep({schedulingDate, onCancelConfirmation}: CalendarStep
   const { register, handleSubmit, formState: {isSubmitting, errors} } = useForm<ConfirmFormData>({
     resolver: zodResolver(ConfirmFormSchema)
   })
-
-  function handleConfirmScheduling(data: ConfirmFormData) {
-    console.log(data)
-  }
-
+  
   const describedDate = dayjs(schedulingDate).format('DD[ de ]MMMM[ de ]YYYY')
   const describedHour = dayjs(schedulingDate).format('HH:mm[h]')
+  
+  const params: {username: string} = useParams()
+  const username = params.username;
+
+  async function handleConfirmScheduling(data: ConfirmFormData) {
+    const {name, email, observations } = data;
+  
+    await api.post(`users/${username}/schedule`, {
+      name,
+      email,
+      observations,
+      date: schedulingDate,
+    })
+    
+    onCancelConfirmation()
+
+  }
 
   return (
     <ConfirmForm onSubmit={handleSubmit(handleConfirmScheduling)}>
