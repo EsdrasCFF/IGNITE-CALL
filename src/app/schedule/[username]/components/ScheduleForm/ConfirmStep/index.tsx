@@ -10,6 +10,7 @@ import { FormError } from "./FormError";
 import dayjs from "dayjs";
 import { useParams} from "next/navigation";
 import { api } from "@/lib/axios";
+import '@/lib/dayjs';
 
 const ConfirmFormSchema = z.object({
   name: z.string().min(3,{message: 'O nome precisa de pelo menos 3 caracteres!'}),

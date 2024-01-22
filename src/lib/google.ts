@@ -1,6 +1,7 @@
 import { google } from "googleapis";
 import { prisma } from "./prisma";
 import dayjs from "dayjs";
+import '@/lib/dayjs';
 
 export async function getGoogleOAuthToken(userId: string) {
   const account = await prisma.account.findFirstOrThrow({
