@@ -39,10 +39,15 @@ export async function POST(request: NextRequest) {
     }
   })
 
-  cookies().set('@ignitecall:userId', user.id, {
-    maxAge: 60 * 60 * 24 * 7, //7 days
-    path: '/'
-  })
+  try {
+    cookies().set('@ignitecall:userId', user.id, {
+      maxAge: 60 * 60 * 24 * 7, //7 days
+      path: '/'
+    })
+  } catch(e) {
+    console.log(e)
+  }
+
 
   return new NextResponse(JSON.stringify(user), {
     status: 201,

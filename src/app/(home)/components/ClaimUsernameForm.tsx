@@ -27,7 +27,7 @@ export function ClaimUsernameForm () {
   async function handlePreRegister(data: ClaimUsernameFormData) {
     const {username} = data;
   
-    await router.push(`register?username=${username}`)
+    router.push(`register?username=${username}`)
   }
 
   return (
