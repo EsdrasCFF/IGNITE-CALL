@@ -5,11 +5,18 @@ import { cookies } from 'next/headers'
 export async function POST(request: NextRequest) {
   const body = await request.json()
   
-  const userExists = await prisma.user.findUnique({
-    where: {
-      username: body.username
-    }
-  })
+  let userExists;
+
+  try {
+    userExists = await prisma.user.findUnique({
+      where: {
+        username: body.username
+      }
+    })
+
+  } catch (e) {
+    console.log(e)
+  }
   
   if(userExists) {
     let message = {
