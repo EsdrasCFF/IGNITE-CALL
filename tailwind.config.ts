@@ -28,6 +28,7 @@ const config: Config = {
     },
   },
   plugins: [
+    require('@tailwindcss/typography'),
     function ({ addComponents }: { addComponents: (components: Record<string, any>) => void }) {
       addComponents({
         '.max-width-custom': {
