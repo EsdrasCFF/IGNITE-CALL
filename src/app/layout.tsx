@@ -14,7 +14,10 @@ const roboto = Roboto({
 })
 
 export const metadata: Metadata = {
-  title: 'Ignite Call',
+  title: {
+    default: 'Ignite Call',
+    template: '%s | Ignite Call'
+  },
   description: 'Ignite Call - Planejamento e agenda',
 }
 

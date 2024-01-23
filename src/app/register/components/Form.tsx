@@ -1,3 +1,5 @@
+"use client"
+
 import { Box } from "@ignite-ui/react";
 import { FormEvent, ReactNode } from "react";
 

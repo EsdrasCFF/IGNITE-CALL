@@ -1,3 +1,5 @@
+"use client"
+
 import { ReactNode } from "react";
 import {Text} from '@ignite-ui/react'
 interface FormErrorProps{
