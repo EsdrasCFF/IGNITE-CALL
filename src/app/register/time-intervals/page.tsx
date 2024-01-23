@@ -1,6 +1,6 @@
 "use client"
 
-import { Button, Checkbox, MultiStep, TextInput } from "@ignite-ui/react";
+import { Button, Checkbox, MultiStep} from "@ignite-ui/react";
 import { Header } from "../components/Header";
 import { IntervalBox } from "./components/IntervalBox";
 import { IntervalItem } from "./components/IntervalItem";
@@ -15,6 +15,7 @@ import { FormError } from "../components/FormError";
 import { convertTimeStringToMinutes } from "@/utils/convert-time-string-to-minutes";
 import { api } from "@/lib/axios";
 import { useRouter } from "next/navigation";
+import { TextInput } from "@/components/TextInput";
 
 const tiemIntervalsFormSchema = z.object({
   intervals: z.array(
@@ -121,19 +122,20 @@ export default function TimeIntervalsPage() {
 
                 <IntervalInputs>
                   <TextInput 
-                    size="sm"
                     type="time"
                     step={60}
                     disabled={intervals[index].enabled === false}
-                    {...register(`intervals.${index}.startTime`)}
+                    register={register}
+                    name={`intervals.${index}.startTime`}
+                    //{...register(`intervals.${index}.startTime`)}
                   />
                   
                   <TextInput 
-                    size="sm"
                     type="time"
                     step={60}
                     disabled={intervals[index].enabled === false}
-                    {...register(`intervals.${index}.endTime`)}
+                    register={register}
+                    name={`intervals.${index}.endTime`}
                   />
                 </IntervalInputs>
               </IntervalItem>

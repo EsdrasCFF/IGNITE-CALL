@@ -1,7 +1,7 @@
 import { CalendarBlank, Clock } from "phosphor-react";
 import { ConfirmForm } from "./ConfirmForm";
 import { FormHeader } from "./FormHeader";
-import { Button, TextArea, TextInput } from "@ignite-ui/react";
+import { Button, TextArea } from "@ignite-ui/react";
 import { FormActions } from "./FormActions";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -11,6 +11,7 @@ import dayjs from "dayjs";
 import { useParams} from "next/navigation";
 import { api } from "@/lib/axios";
 import '@/lib/dayjs';
+import { TextInput } from "@/components/TextInput";
 
 const ConfirmFormSchema = z.object({
   name: z.string().min(3,{message: 'O nome precisa de pelo menos 3 caracteres!'}),
@@ -66,13 +67,13 @@ export function ConfirmStep({schedulingDate, onCancelConfirmation}: CalendarStep
 
       <label className="flex flex-col gap-2" >
         <p>Nome Completo</p>
-        <TextInput {...register('name')} placeholder="Seu nome"/>
+        <TextInput placeholder="Seu nome" name="name" register={register}/>
         {errors.name && (<FormError> {errors.name.message} </FormError>)}
       </label>
       
       <label className="flex flex-col gap-2" >
         <p>Endereço de e-mail</p>
-        <TextInput {...register('email')} type="email" placeholder="jhondoe@example.com"/>
+        <TextInput  type="email" placeholder="jhondoe@example.com" name="email" register={register} />
         {errors.email && (<FormError> {errors.email.message} </FormError>)}
       </label>
       

@@ -1,7 +1,8 @@
 "use client"
 
+import { TextInput } from "@/components/TextInput";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, TextInput} from "@ignite-ui/react";
+import { Button} from "@ignite-ui/react";
 import { useRouter } from "next/navigation";
 import { ArrowRight } from "phosphor-react";
 import { useForm } from "react-hook-form";
@@ -32,11 +33,11 @@ export function ClaimUsernameForm () {
   return (
     <>
       <form className="grid grid-cols-[1fr,auto] gap-2" onSubmit={handleSubmit(handlePreRegister)} >
-        <TextInput  
-          size="sm" 
+        <TextInput
           prefix="ignite.com/" 
           placeholder="seu-usuario"
-          {...register('username')}
+          register={register}
+          name="username"
         />
 
         <Button size='sm' type='submit' disabled={isSubmitting} >

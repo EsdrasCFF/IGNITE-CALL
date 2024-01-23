@@ -1,6 +1,6 @@
 "use client"
 
-import { Button, MultiStep, TextInput } from "@ignite-ui/react";
+import { Button, MultiStep} from "@ignite-ui/react";
 import { Header } from "./components/Header";
 import { Form } from "./components/Form";
 import { ArrowRight } from "phosphor-react";
@@ -12,6 +12,7 @@ import { useRouter, useSearchParams} from "next/navigation";
 import { useEffect } from "react";
 import { api } from "@/lib/axios";
 import { AxiosError } from "axios";
+import { TextInput } from "@/components/TextInput";
 
 
 const registerFormSchema = z.object({
@@ -79,7 +80,7 @@ export default function RegisterPage() {
         <label className="flex flex-col gap-2" >
           <p className="text-sm"> Nome de Usuário </p>
 
-          <TextInput prefix="ignite.com/" placeholder="seu-usuario" {...register('username')} />
+          <TextInput prefix="ignite.com/" placeholder="seu-usuario" register={register} name="username"/>
 
           {errors.username?.message && (
             <FormError> {errors.username.message} </FormError>
@@ -90,7 +91,7 @@ export default function RegisterPage() {
         <label className="flex flex-col gap-2" >
           <p className="text-sm"> Nome Completo </p>
 
-          <TextInput prefix="" placeholder="Seu nome" {...register('name')}/>
+          <TextInput prefix="" placeholder="Seu nome" register={register} name="name" />
 
           {errors.name?.message && (
             <FormError> {errors.name.message} </FormError>
